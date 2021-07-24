@@ -15,10 +15,17 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// }
-
-	"class $1 extends from Component" {
-	"render()" {
-		"return"
+	// Example:
+	"create class": {
+		"scope": "javascript,typescript",
+		"prefix": "rcc",
+		"body": [
+			"class ModuleName extends Component {",
+				"render() {",
+					"return {$1}",
+					"}",
+				"}",
+		],
+		"description": "Log output to console"
 	}
-}
 }
