@@ -24,7 +24,7 @@ const signUp = user => async dispatch => {
 };
 
 const login = user => async dispatch => {
-  authActions.loginUserRequest();
+  dispatch(authActions.loginUserRequest());
 
   try {
     const response = await axios.post('/users/login', user);

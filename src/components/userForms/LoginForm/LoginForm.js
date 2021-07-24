@@ -1,5 +1,9 @@
 import React from 'react';
 import { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { authOps } from '../../../redux/auth';
+
 import styles from './LoginForm.module.scss';
 
 class LoginForm extends Component {
@@ -15,11 +19,18 @@ class LoginForm extends Component {
     this.setState({ [name]: value });
   };
 
-  handleSubmit = () => {};
+  handleSubmit = e => {
+    e.preventDefault();
+
+    this.props.onLogin(this.state);
+
+    this.setState({ email: '', password: '' });
+  };
+
   render() {
     const { email, password } = this.state;
     return (
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={this.handleSubmit}>
         <label className={styles.label}>
           {' '}
           Email
@@ -53,5 +64,8 @@ class LoginForm extends Component {
     );
   }
 }
+const mapDispatchToProps = {
+  onLogin: authOps.login,
+};
 
-export default LoginForm;
+export default connect(null, mapDispatchToProps)(LoginForm);

@@ -4,13 +4,13 @@ import authActions from './authActions';
 const INITIAL_STATE = { name: '', email: '' };
 
 const user = createReducer(INITIAL_STATE, {
-  [authActions.loginUserSuccess]: (_, { payload }) => payload.user,
   [authActions.signUpUserSuccess]: (_, { payload }) => payload.user,
+  [authActions.loginUserSuccess]: (_, { payload }) => payload.user,
   [authActions.logOutSuccess]: () => INITIAL_STATE,
 });
 const error = createReducer(null, {
-  [authActions.loginUserSuccess]: () => null,
   [authActions.signUpUserSuccess]: () => null,
+  [authActions.loginUserSuccess]: () => null,
   [authActions.logOutSuccess]: () => null,
   [authActions.signUpUserError]: (_, { payload }) => payload,
   [authActions.loginError]: (_, { payload }) => payload,
@@ -19,7 +19,7 @@ const error = createReducer(null, {
 
 const token = createReducer(null, {
   [authActions.signUpUserSuccess]: (_, { payload }) => payload.token,
-  [authActions.loginSuccess]: (_, { payload }) => payload.token,
+  [authActions.loginUserSuccess]: (_, { payload }) => payload.token,
   [authActions.logOutSuccess]: () => null,
 });
 export default combineReducers({ user, token, error });
