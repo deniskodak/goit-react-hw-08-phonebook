@@ -34,6 +34,9 @@ const error = createReducer(null, {
   [phoneBookActions.getContactsError]: (_, { payload }) => payload,
   [phoneBookActions.addContactsError]: (_, { payload }) => payload,
   [phoneBookActions.deleteContactsError]: (_, { payload }) => payload,
+  [phoneBookActions.getContactsSuccess]: () => null,
+  [phoneBookActions.addContactsSuccess]: () => null,
+  [phoneBookActions.deleteContactsSuccess]: () => null,
 });
 
 export default combineReducers({
