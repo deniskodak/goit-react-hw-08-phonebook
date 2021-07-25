@@ -16,7 +16,7 @@ const logOutRequest = createAction('auth/logOutRequest');
 const logOutSuccess = createAction('auth/logOutSuccess');
 const logOutError = createAction('auth/logOutError');
 
-export default {
+const authActions = {
   getCurrentUserRequest,
   getCurrentUserSuccess,
   getCurrentUserError,
@@ -30,3 +30,5 @@ export default {
   logOutSuccess,
   logOutError,
 };
+
+export default authActions;

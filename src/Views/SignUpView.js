@@ -1,5 +1,5 @@
 import React from 'react';
-import SignUpForm from '../components/userForms/SignUpForm';
+import SignUpForm from '../components/userComponents/userForms/SignUpForm';
 import './views.scss';
 
 const SignUpView = () => (

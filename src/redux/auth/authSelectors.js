@@ -1,4 +1,6 @@
-const isAuthenticated = state => state.auth.token;
+const isAuthenticated = state => state.auth.isLogin;
 const getUser = state => state.auth.user;
 
-export default { isAuthenticated, getUser };
+const authSelectors = { isAuthenticated, getUser };
+
+export default authSelectors;

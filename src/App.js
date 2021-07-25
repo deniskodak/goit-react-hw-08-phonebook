@@ -1,39 +1,62 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Component } from 'react/cjs/react.production.min';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import './App.css';
-import { Route } from 'react-router';
-import { getContacts } from './redux/operations/operations';
+import './App.scss';
+import { Route, Switch, Redirect } from 'react-router';
+import { authOps } from './redux/auth';
 
-import AppBar from './components/AppBar';
-import HomeView from './Views/HomeVIew';
-import ContactsView from './Views/ContactsView';
-import SignUpView from './Views/SignUpView';
-import LoginView from './Views/LoginView';
+import AppBar from './components/commonComponents/AppBar';
+import PrivateRoute from './components/commonComponents/PrivateRoute';
+import PublicRoute from './components/commonComponents/PublicRoute';
+import LoaderWithContainer from './components/commonComponents/LoaderWithContaner';
+
+const HomeView = lazy(() => import('./Views/HomeVIew'));
+const ContactsView = lazy(() => import('./Views/ContactsView'));
+const SignUpView = lazy(() => import('./Views/SignUpView'));
+const LoginView = lazy(() => import('./Views/LoginView'));
 
 class App extends Component {
   componentDidMount() {
-    this.props.getContacts();
+    this.props.onGetCurrentUser();
   }
   render() {
     return (
       <>
         <AppBar />
-        <Route exact path="/" component={HomeView} />
-        <Route path="/contacts" component={ContactsView} />
-        <Route path="/register" component={SignUpView} />
-        <Route path="/login" component={LoginView} />
+        <Suspense fallback={<LoaderWithContainer />}>
+          <Switch>
+            <Route exact path="/" component={HomeView} />
+            <PrivateRoute
+              path="/contacts"
+              redirectTo="/login"
+              component={ContactsView}
+            />
+            <PublicRoute
+              path="/register"
+              restricted
+              redirectTo="/"
+              component={SignUpView}
+            />
+            <PublicRoute
+              path="/login"
+              restricted
+              redirectTo="/contacts"
+              component={LoginView}
+            />
+            <Redirect to="/" />
+          </Switch>
+        </Suspense>
       </>
     );
   }
 }
 
 App.propTypes = {
-  getContacts: PropTypes.func.isRequired,
+  onGetCurrentUser: PropTypes.func.isRequired,
 };
-const mdtp = dispatch => ({
-  getContacts: () => dispatch(getContacts()),
-});
-export default connect(null, mdtp)(App);
+const mapDispatchToProps = {
+  onGetCurrentUser: authOps.getCurrentUser,
+};
+export default connect(null, mapDispatchToProps)(App);

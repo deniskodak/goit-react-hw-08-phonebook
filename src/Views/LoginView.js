@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginForm from '../components/userForms/LoginForm';
+import LoginForm from '../components/userComponents/userForms/LoginForm';
 import './views.scss';
 
 const LoginView = () => (
