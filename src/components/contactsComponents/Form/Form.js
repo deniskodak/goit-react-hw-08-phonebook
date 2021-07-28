@@ -29,7 +29,7 @@ class ContactForm extends Component {
 
     existContact
       ? alert(`${name} is already in contacts`)
-      : this.props.addContact(name, +number);
+      : this.props.addContact(name, number);
 
     this.setState(() => ({
       name: '',

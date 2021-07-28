@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
 import PropTypes from 'prop-types';
 import { phoneBookOps } from '../redux/contacts';
+import { phoneBookSelectors } from '../redux/contacts';
 
 import Form from '../components/contactsComponents/Form';
 import Filter from '../components/contactsComponents/Filter';
@@ -15,6 +16,8 @@ class ContactsView extends Component {
   }
 
   render() {
+    const { contacts } = this.props;
+
     return (
       <div className="container">
         <CSSTransition
@@ -26,8 +29,12 @@ class ContactsView extends Component {
           <section className="app-section">
             <h1 className="app-title">Phonebook</h1>
             <Form />
-            <h2 className="app-title top-margin">Filter your contacts</h2>
-            <Filter />
+            {contacts.length > 0 && (
+              <>
+                <h2 className="app-title top-margin">Filter your contacts</h2>
+                <Filter />
+              </>
+            )}
           </section>
         </CSSTransition>
         <CSSTransition
@@ -47,10 +54,15 @@ class ContactsView extends Component {
 }
 
 ContactsView.propTypes = {
+  contacts: PropTypes.array.isRequired,
   fetchContacts: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = state => ({
+  contacts: phoneBookSelectors.getContacts(state),
+});
 
 const mapDispatchToProps = {
   fetchContacts: phoneBookOps.getContacts,
 };
-export default connect(null, mapDispatchToProps)(ContactsView);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsView);
